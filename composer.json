@@ -1,0 +1,40 @@
+{
+    "name": "cubicl/php-object-graph-generator",
+    "description": "A sorting library for PHP",
+    "homepage": "https://github.com/cubicldev/php-object-graph-generator",
+    "type": "library",
+    "license": "MIT",
+    "authors": [
+        {
+            "name":      "Christian Blank",
+            "email":     "christian@cubicl.de",
+            "homepage":  "https://cubicl.de"
+        }
+    ],
+    "minimum-stability": "beta",
+    "require-dev": {
+        "phpunit/phpunit": "^9.0",
+        "pestphp/pest": "^0.1.5",
+        "phpstan/phpstan": "^0.12.25"
+    },
+    "scripts": {
+        "check": ["@analyze", "@test"],
+        "test": "pest tests",
+        "analyze": "phpstan analyse --level max src"
+    },
+
+    "autoload": {
+        "psr-4": {
+            "Cubicl\\ObjectGraphGenerator\\": [
+                "src"
+            ],
+            "Cubicl\\ObjectGraphGenerator\\Tests\\": [
+                "tests"
+            ]
+        }
+    },
+    "require": {
+        "fzaninotto/faker": "^1.9",
+        "symfony/property-info": "^5.1@RC"
+    }
+}
