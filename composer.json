@@ -1,6 +1,6 @@
 {
     "name": "cubicl/php-object-graph-generator",
-    "description": "A sorting library for PHP",
+    "description": "Create randomly populated object graphs",
     "homepage": "https://github.com/cubicldev/php-object-graph-generator",
     "type": "library",
     "license": "MIT",
