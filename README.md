@@ -5,7 +5,7 @@ This library helps you creating randomly populated object graphs inside your dom
 ## Installation
 
 ```
-composer install cubicl/php-object-graph-generator
+composer require cubicl/php-object-graph-generator
 ```
 
 ## Usage
