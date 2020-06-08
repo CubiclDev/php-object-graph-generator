@@ -17,6 +17,7 @@ use Symfony\Component\PropertyInfo\Type;
 
 class ObjectGraphGenerator
 {
+    private const DEFAULT_SEED = 1;
     private Generator $fakerInstance;
 
     private PropertyInfoExtractor $propertyInfo;
@@ -31,12 +32,18 @@ class ObjectGraphGenerator
         $reflectionExtractor = new ReflectionExtractor();
         $typeExtractors      = [$phpDocExtractor, $reflectionExtractor];
         $this->propertyInfo  = new PropertyInfoExtractor([], $typeExtractors, [], [], []);
+        $this->fakerInstance->seed(self::DEFAULT_SEED);
     }
 
-    public function generate(string $className, int $seed): object
+    public function generateWithSeed(string $className, int $seed): object
     {
         $this->fakerInstance->seed($seed);
 
+        return $this->generateObject($className);
+    }
+
+    public function generate(string $className): object
+    {
         return $this->generateObject($className);
     }
 
