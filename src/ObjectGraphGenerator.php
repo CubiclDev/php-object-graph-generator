@@ -18,11 +18,15 @@ use Symfony\Component\PropertyInfo\Type;
 class ObjectGraphGenerator
 {
     private const DEFAULT_SEED = 1;
-    private Generator $fakerInstance;
 
-    private PropertyInfoExtractor $propertyInfo;
+    /** @var Generator */
+    private $fakerInstance;
 
-    private array $registry;
+    /** @var PropertyInfoExtractor */
+    private $propertyInfo;
+
+    /** @var array */
+    private $registry;
 
     public function __construct(array $registry = [])
     {

@@ -35,6 +35,6 @@
     },
     "require": {
         "fzaninotto/faker": "^1.9",
-        "symfony/property-info": "^5.1@RC"
+        "symfony/property-info": ">=4"
     }
 }
