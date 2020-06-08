@@ -6,6 +6,7 @@ namespace Cubicl\ObjectGraphGenerator\Tests;
 
 use Cubicl\ObjectGraphGenerator\ObjectGraphGenerator;
 use Cubicl\ObjectGraphGenerator\Tests\Fixture\CircularReferenceObjectA;
+use Cubicl\ObjectGraphGenerator\Tests\Fixture\Factory\SelfReferencingObjectsFactory;
 use Cubicl\ObjectGraphGenerator\Tests\Fixture\SelfReferencingObjects;
 use Cubicl\ObjectGraphGenerator\Tests\Fixture\SimpleTypesInConstructor;
 use Cubicl\ObjectGraphGenerator\Tests\Fixture\SimpleTypesInCreateMethod;
@@ -39,6 +40,9 @@ class ObjectGraphGeneratorTest extends TestCase
 
     private function getUnitUnderTest(): ObjectGraphGenerator
     {
-        return new ObjectGraphGenerator();
+        return new ObjectGraphGenerator([
+            SelfReferencingObjects::class => new SelfReferencingObjectsFactory(),
+            'Cubicl\ObjectGraphGenerator\Tests\Fixture\SimpleTypesInConstructor:bar' => function () {return false;},
+        ]);
     }
 }

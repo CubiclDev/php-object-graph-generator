@@ -22,9 +22,9 @@ class ObjectGraphGenerator
 
     private PropertyInfoExtractor $propertyInfo;
 
-    private array $registry = [];
+    private array $registry;
 
-    public function __construct()
+    public function __construct(array $registry = [])
     {
         $this->fakerInstance = Factory::create();
 
@@ -33,6 +33,7 @@ class ObjectGraphGenerator
         $typeExtractors      = [$phpDocExtractor, $reflectionExtractor];
         $this->propertyInfo  = new PropertyInfoExtractor([], $typeExtractors, [], [], []);
         $this->fakerInstance->seed(self::DEFAULT_SEED);
+        $this->registry = $registry;
     }
 
     public function generateWithSeed(string $className, int $seed): object
@@ -146,6 +147,6 @@ class ObjectGraphGenerator
 
     private function getFromRegistry(string $key)
     {
-        return $this->registry[$key]();
+        return $this->registry[$key]($this, $this->fakerInstance);
     }
 }
