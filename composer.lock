@@ -360,20 +360,20 @@
         },
         {
             "name": "symfony/property-info",
-            "version": "v5.1.0-RC1",
+            "version": "v5.1.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/property-info.git",
-                "reference": "df93a450c24100203a4de4cd7390ac5d25931be2"
+                "reference": "b644923132bdd92c2664f0c7955f77a9a2b8e919"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/property-info/zipball/df93a450c24100203a4de4cd7390ac5d25931be2",
-                "reference": "df93a450c24100203a4de4cd7390ac5d25931be2",
+                "url": "https://api.github.com/repos/symfony/property-info/zipball/b644923132bdd92c2664f0c7955f77a9a2b8e919",
+                "reference": "b644923132bdd92c2664f0c7955f77a9a2b8e919",
                 "shasum": ""
             },
             "require": {
-                "php": "^7.2.5",
+                "php": ">=7.2.5",
                 "symfony/polyfill-php80": "^1.15",
                 "symfony/string": "^5.1"
             },
@@ -433,7 +433,7 @@
                 "type",
                 "validator"
             ],
-            "time": "2020-05-05T06:40:05+00:00"
+            "time": "2020-05-20T17:43:50+00:00"
         },
         {
             "name": "symfony/string",
