@@ -28,6 +28,9 @@ class ObjectGraphGenerator
     /** @var array */
     private $registry;
 
+    /** @var array */
+    private $temporaryRegistry = [];
+
     public function __construct(array $registry = [])
     {
         $this->fakerInstance = Factory::create();
@@ -40,16 +43,18 @@ class ObjectGraphGenerator
         $this->registry = $registry;
     }
 
-    public function generateWithSeed(string $className, int $seed): object
-    {
-        $this->fakerInstance->seed($seed);
-
-        return $this->generateObject($className);
-    }
-
     public function generate(string $className): object
     {
         return $this->generateObject($className);
+    }
+
+    public function generateWithTemporaryConfig(string $className, array $config): object
+    {
+        $this->temporaryRegistry = $config;
+        $object = $this->generateObject($className);
+        $this->temporaryRegistry = [];
+
+        return $object;
     }
 
     /**
@@ -146,11 +151,14 @@ class ObjectGraphGenerator
 
     private function isInRegistry(string $key): bool
     {
-        return array_key_exists($key, $this->registry);
+        return array_key_exists($key, $this->temporaryRegistry) || array_key_exists($key, $this->registry);
     }
 
     private function getFromRegistry(string $key)
     {
+        if (isset($this->temporaryRegistry[$key])) {
+            return $this->temporaryRegistry[$key]($this, $this->fakerInstance);
+        }
         return $this->registry[$key]($this, $this->fakerInstance);
     }
 }

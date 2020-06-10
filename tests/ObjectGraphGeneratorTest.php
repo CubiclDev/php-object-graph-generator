@@ -28,6 +28,20 @@ class ObjectGraphGeneratorTest extends TestCase
         $this->assertInstanceOf($class, $actual);
     }
 
+    /**
+     * @test
+     */
+    public function itShouldUseTemporaryConfigBeforeRegistry(): void
+    {
+        $objectGraphGenerator = $this->getUnitUnderTest();
+        /** @var SimpleTypesInConstructor $actual */
+        $actual = $objectGraphGenerator->generateWithTemporaryConfig(SimpleTypesInConstructor::class, [
+            'Cubicl\ObjectGraphGenerator\Tests\Fixture\SimpleTypesInConstructor:bar' => function () {return true;},
+        ]);
+
+        $this->assertTrue($actual->isBar());
+    }
+
     public function dataForTest(): array
     {
         return [
