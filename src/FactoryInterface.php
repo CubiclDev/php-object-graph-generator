@@ -1,8 +1,9 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Cubicl\ObjectGraphGenerator;
 
-use Cubicl\ObjectGraphGenerator\ObjectGraphGenerator;
 use Faker\Generator;
 
 interface FactoryInterface
