@@ -10,32 +10,44 @@ jobs:
   build:
     runs-on: ubuntu-latest
 
+    strategy:
+      matrix:
+        operating-system: [ ubuntu-latest ]
+        php: [ '7.4', '8.0' ]
+
+    name: PHP ${{ matrix.php }}
+
     steps:
-    - uses: actions/checkout@v2
+      - uses: actions/checkout@v2
 
-    - name: Validate composer.json and composer.lock
-      run: composer validate
+      - name: Setup PHP
+        uses: nanasess/setup-php@master
+        with:
+          php-version: ${{ matrix.php }}
 
-    - name: Get Composer Cache Directory
-      id: composer-cache
-      run: |
-          echo "::set-output name=dir::$(composer config cache-files-dir)"
+      - name: Validate composer.json and composer.lock
+        run: composer validate
 
-    - name: Install dependencies
-      run: composer install --prefer-dist --no-progress
+      - name: Get Composer Cache Directory
+        id: composer-cache
+        run: |
+            echo "::set-output name=dir::$(composer config cache-files-dir)"
 
-    - name: Run test suite
-      run: composer test
+      - name: Install dependencies
+        run: composer install --prefer-dist --no-progress
 
-    - name: Run phpstan
-      run: composer analyze
+      - name: Run test suite
+        run: composer test
 
-    - name: Run codestyle checker
-      run: composer cs-check
+      - name: Run phpstan
+        run: composer analyze
 
-    - uses: actions/cache@v1
-      with:
-        path: ${{ steps.composer-cache.outputs.dir }}
-        key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}
-        restore-keys: |
-          ${{ runner.os }}-composer-
+      - name: Run codestyle checker
+        run: composer cs-check
+
+      - uses: actions/cache@v1
+        with:
+          path: ${{ steps.composer-cache.outputs.dir }}
+          key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-composer-
