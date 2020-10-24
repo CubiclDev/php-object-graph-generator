@@ -27,5 +27,4 @@ class SelfReferencingObjects
     {
         return $this->number;
     }
-
 }
