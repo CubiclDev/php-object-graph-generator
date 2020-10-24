@@ -27,6 +27,12 @@ jobs:
     - name: Run test suite
       run: composer test
 
+    - name: Run phpstan
+      run: composer analyze
+
+    - name: Run codestyle checker
+      run: composer cs-check
+
     - uses: actions/cache@v1
       with:
         path: ${{ steps.composer-cache.outputs.dir }}
