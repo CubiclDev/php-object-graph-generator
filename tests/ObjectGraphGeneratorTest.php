@@ -17,8 +17,7 @@ class ObjectGraphGeneratorTest extends TestCase
     /**
      * @test
      * @dataProvider dataForTest
-     *
-     * @param string $class
+     * @param class-string $class
      */
     public function itShouldGenerateObjectOfGivenType(string $class): void
     {
@@ -42,6 +41,9 @@ class ObjectGraphGeneratorTest extends TestCase
         $this->assertTrue($actual->isBar());
     }
 
+    /**
+     * @return array<string,array<class-string>>
+     */
     public function dataForTest(): array
     {
         return [
