@@ -51,6 +51,19 @@ class ObjectGraphGenerator
 
     /**
      * @param class-string $className
+     * @param array<mixed> $config
+     */
+    public function generateWithTemporaryConfig(string $className, array $config): object
+    {
+        $this->temporaryRegistry = $config;
+        $object = $this->generateObject($className);
+        $this->temporaryRegistry = [];
+
+        return $object;
+    }
+
+    /**
+     * @param class-string $className
      * @throws ReflectionException
      */
     private function generateObject(string $className): object
@@ -79,23 +92,6 @@ class ObjectGraphGenerator
         return $factoryMethod->isConstructor()
             ? $class->newInstanceArgs($arguments)
             : $factoryMethod->invokeArgs(null, $arguments);
-    }
-
-    private function isInRegistry(string $key): bool
-    {
-        return array_key_exists($key, $this->temporaryRegistry) || array_key_exists($key, $this->registry);
-    }
-
-    /**
-     * @return mixed
-     */
-    private function getFromRegistry(string $key)
-    {
-        if (isset($this->temporaryRegistry[$key])) {
-            return $this->temporaryRegistry[$key]($this, $this->fakerInstance);
-        }
-
-        return $this->registry[$key]($this, $this->fakerInstance);
     }
 
     /**
@@ -171,16 +167,20 @@ class ObjectGraphGenerator
         }
     }
 
-    /**
-     * @param class-string $className
-     * @param array<mixed> $config
-     */
-    public function generateWithTemporaryConfig(string $className, array $config): object
+    private function isInRegistry(string $key): bool
     {
-        $this->temporaryRegistry = $config;
-        $object = $this->generateObject($className);
-        $this->temporaryRegistry = [];
+        return array_key_exists($key, $this->temporaryRegistry) || array_key_exists($key, $this->registry);
+    }
 
-        return $object;
+    /**
+     * @return mixed
+     */
+    private function getFromRegistry(string $key)
+    {
+        if (isset($this->temporaryRegistry[$key])) {
+            return $this->temporaryRegistry[$key]($this, $this->fakerInstance);
+        }
+
+        return $this->registry[$key]($this, $this->fakerInstance);
     }
 }
