@@ -21,9 +21,11 @@
         "squizlabs/php_codesniffer": "^3.5.5"
     },
     "scripts": {
-        "check": ["@analyze", "@test"],
+        "check": ["@analyze", "@test", "@cs-check"],
         "test": "pest tests",
-        "analyze": "phpstan analyse --level max"
+        "analyze": "phpstan analyse --level max",
+        "cs-check": "phpcs --parallel=50",
+        "cs-fix": "phpcbf"
     },
     "autoload": {
         "psr-4": {
