@@ -13,9 +13,9 @@
     ],
     "minimum-stability": "beta",
     "require-dev": {
-        "phpunit/phpunit": "^9.0",
+        "phpunit/phpunit": "^9.4",
         "pestphp/pest": "^0.1.5",
-        "phpstan/phpstan": "^0.12.25"
+        "phpstan/phpstan": "^0.12.51"
     },
     "scripts": {
         "check": ["@analyze", "@test"],
@@ -34,6 +34,7 @@
         }
     },
     "require": {
+        "php": "^7.4",
         "fzaninotto/faker": "^1.9",
         "symfony/property-info": ">=4"
     }
