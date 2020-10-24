@@ -23,7 +23,7 @@
     "scripts": {
         "check": ["@analyze", "@test"],
         "test": "pest tests",
-        "analyze": "phpstan analyse --level max src"
+        "analyze": "phpstan analyse --level max"
     },
     "autoload": {
         "psr-4": {
