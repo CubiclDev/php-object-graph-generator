@@ -21,14 +21,9 @@ class ObjectGraphGenerator
 
     private Generator $fakerInstance;
     private PropertyInfoExtractor $propertyInfo;
-    /**
-     * @var array<mixed>
-     */
+    /** @var array<mixed> */
     private array $registry;
-
-    /**
-     * @var array<mixed>
-     */
+    /** @var array<mixed> */
     private array $temporaryRegistry = [];
 
     /**
