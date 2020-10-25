@@ -35,9 +35,7 @@ class ObjectGraphGeneratorTest extends TestCase
         $objectGraphGenerator = $this->getUnitUnderTest();
         /** @var SimpleTypesInConstructor $actual */
         $actual = $objectGraphGenerator->generateWithTemporaryConfig(SimpleTypesInConstructor::class, [
-            'Cubicl\ObjectGraphGenerator\Tests\Fixture\SimpleTypesInConstructor:bar' => function () {
-                return true;
-            },
+            'Cubicl\ObjectGraphGenerator\Tests\Fixture\SimpleTypesInConstructor:bar' => fn () => true,
         ]);
 
         $this->assertTrue($actual->isBar());
@@ -60,9 +58,7 @@ class ObjectGraphGeneratorTest extends TestCase
     {
         return new ObjectGraphGenerator([
             SelfReferencingObjects::class => new SelfReferencingObjectsFactory(),
-            'Cubicl\ObjectGraphGenerator\Tests\Fixture\SimpleTypesInConstructor:bar' => function () {
-                return false;
-            },
+            'Cubicl\ObjectGraphGenerator\Tests\Fixture\SimpleTypesInConstructor:bar' => fn() => false,
         ]);
     }
 }
