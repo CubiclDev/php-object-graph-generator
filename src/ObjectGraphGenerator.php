@@ -23,8 +23,6 @@ class ObjectGraphGenerator
     private PropertyInfoExtractor $propertyInfo;
     /** @var array<mixed> */
     private array $registry;
-    /** @var array<mixed> */
-    private array $temporaryRegistry = [];
 
     /**
      * @param array<mixed> $registry
@@ -55,11 +53,11 @@ class ObjectGraphGenerator
      */
     public function generateWithTemporaryConfig(string $className, array $config): object
     {
-        $this->temporaryRegistry = $config;
-        $object = $this->generateObject($className);
-        $this->temporaryRegistry = [];
+        $temporaryGenerator = new self(
+            array_merge($this->registry, $config)
+        );
 
-        return $object;
+        return $temporaryGenerator->generateObject($className);
     }
 
     /**
@@ -169,7 +167,7 @@ class ObjectGraphGenerator
 
     private function isInRegistry(string $key): bool
     {
-        return array_key_exists($key, $this->temporaryRegistry) || array_key_exists($key, $this->registry);
+        return array_key_exists($key, $this->registry);
     }
 
     /**
@@ -177,10 +175,6 @@ class ObjectGraphGenerator
      */
     private function getFromRegistry(string $key)
     {
-        if (isset($this->temporaryRegistry[$key])) {
-            return $this->temporaryRegistry[$key]($this, $this->fakerInstance);
-        }
-
         return $this->registry[$key]($this, $this->fakerInstance);
     }
 }
