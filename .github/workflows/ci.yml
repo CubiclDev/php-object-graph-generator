@@ -13,8 +13,7 @@ jobs:
     strategy:
       matrix:
         operating-system: [ ubuntu-latest ]
-        php: [ '7.4' ]
-        #php: [ '7.4', '8.0' ]
+        php: [ '7.4', '8.0', '8.1' ]
 
     name: PHP ${{ matrix.php }}
 
@@ -32,11 +31,6 @@ jobs:
       - name: Validate composer.json and composer.lock
         run: composer validate
 
-      - name: Get Composer Cache Directory
-        id: composer-cache
-        run: |
-            echo "::set-output name=dir::$(composer config cache-files-dir)"
-
       - name: Install dependencies
         run: composer install --prefer-dist --no-progress
 
@@ -48,10 +42,3 @@ jobs:
 
       - name: Run codestyle checker
         run: composer cs-check
-
-      - uses: actions/cache@v1
-        with:
-          path: ${{ steps.composer-cache.outputs.dir }}
-          key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}
-          restore-keys: |
-            ${{ runner.os }}-composer-
