@@ -174,7 +174,7 @@ class ObjectGraphGenerator
      * @param class-string|string $key
      * @return mixed
      */
-    private function getFromRegistry(string $key): mixed
+    private function getFromRegistry(string $key)
     {
         return $this->registry[$key]($this, $this->fakerInstance);
     }
