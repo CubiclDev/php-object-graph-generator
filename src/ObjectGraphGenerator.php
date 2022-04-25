@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Cubicl\ObjectGraphGenerator;
 
+use Closure;
 use Faker\Factory;
 use Faker\Generator;
 use ReflectionClass;
@@ -21,11 +22,11 @@ class ObjectGraphGenerator
 
     private Generator $fakerInstance;
     private PropertyInfoExtractor $propertyInfo;
-    /** @var array<mixed> */
+    /** @var array<string, Closure|FactoryInterface> */
     private array $registry;
 
     /**
-     * @param array<mixed> $registry
+     * @param array<string, Closure|FactoryInterface> $registry
      */
     public function __construct(array $registry = [])
     {
@@ -49,7 +50,7 @@ class ObjectGraphGenerator
 
     /**
      * @param class-string $className
-     * @param array<mixed> $config
+     * @param array<string, Closure|FactoryInterface> $config
      */
     public function generateWithTemporaryConfig(string $className, array $config): object
     {
@@ -67,7 +68,7 @@ class ObjectGraphGenerator
     private function generateObject(string $className): object
     {
         if ($this->isInRegistry($className)) {
-            return $this->getFromRegistry($className);
+            return (object) $this->getFromRegistry($className);
         }
 
         $class = new ReflectionClass($className);
@@ -79,7 +80,7 @@ class ObjectGraphGenerator
 
         $arguments = array_map(
             function (ReflectionParameter $parameter) use ($className) {
-                /** @var array<mixed> $type */
+                /** @var array<Type> $type */
                 $type = $this->propertyInfo->getTypes($className, $parameter->getName());
 
                 return $this->generateArgument($type[0], $className, $parameter->getName());
@@ -89,7 +90,7 @@ class ObjectGraphGenerator
 
         return $factoryMethod->isConstructor()
             ? $class->newInstanceArgs($arguments)
-            : $factoryMethod->invokeArgs(null, $arguments);
+            : (object) $factoryMethod->invokeArgs(null, $arguments);
     }
 
     /**
@@ -142,10 +143,9 @@ class ObjectGraphGenerator
                 if ($type->isCollection()) {
                     $collection = array_map(
                         function () use ($argumentName, $className, $type) {
-                            /** @var Type $collectionValueType */
-                            $collectionValueType = $type->getCollectionValueType();
+                            $collectionValueType = $type->getCollectionValueTypes();
 
-                            return $this->generateArgument($collectionValueType, $className, $argumentName);
+                            return $this->generateArgument($collectionValueType[0], $className, $argumentName);
                         },
                         range(0, $faker->numberBetween(0, 10))
                     );
@@ -171,9 +171,10 @@ class ObjectGraphGenerator
     }
 
     /**
+     * @param class-string|string $key
      * @return mixed
      */
-    private function getFromRegistry(string $key)
+    private function getFromRegistry(string $key): mixed
     {
         return $this->registry[$key]($this, $this->fakerInstance);
     }
