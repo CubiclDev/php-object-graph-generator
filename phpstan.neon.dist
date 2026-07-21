@@ -7,3 +7,13 @@ parameters:
   paths:
     - src
     - tests
+  # symfony/property-info 7.x deprecates the legacy getTypes()/Type API in
+  # favour of the TypeInfo component. We intentionally keep the legacy API so
+  # the library still works on property-info 5.4/6.x (PHP < 8.2). Ignore those
+  # specific vendor deprecations. reportUnmatchedIgnoredErrors is off because
+  # they only fire when property-info 7.x is installed (PHP >= 8.2).
+  reportUnmatchedIgnoredErrors: false
+  ignoreErrors:
+    - '#Call to deprecated method getTypes\(\) of class Symfony\\Component\\PropertyInfo\\PropertyInfoExtractor#'
+    - '#has typehint with deprecated class Symfony\\Component\\PropertyInfo\\Type#'
+    - '#Fetching class constant BUILTIN_TYPE_[A-Z]+ of deprecated class Symfony\\Component\\PropertyInfo\\Type#'
