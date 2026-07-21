@@ -40,6 +40,6 @@
     "require": {
         "php": "^7.4 || ^8",
         "fakerphp/faker": "^v1.19.0",
-        "symfony/property-info": "^v5.4 || ^v6.0"
+        "symfony/property-info": "^v5.4 || ^v6.0 || ^v7.0"
     }
 }
